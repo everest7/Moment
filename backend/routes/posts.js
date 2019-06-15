@@ -12,6 +12,7 @@ const MIME_TYPE_MAP = {
 };
 
 const storage = multer.diskStorage({
+  // Save a file
   destination: (req, file, cb) => {
     const isValid = MIME_TYPE_MAP[file.mimetype];
     let error = new Error("Invalid mime type");
@@ -30,6 +31,7 @@ const storage = multer.diskStorage({
   }
 });
 
+// Save data to database
 router.post(
   "",
   multer({ storage: storage }).single("image"),
@@ -52,6 +54,7 @@ router.post(
   }
 );
 
+// Update one piece of posts
 router.put(
   "/:id",
   multer({ storage: storage }).single("image"),
@@ -75,12 +78,27 @@ router.put(
 );
 
 router.get("", (req, res, next) => {
-  Post.find().then(documents => {
-    res.status(200).json({
-      message: "Posts fetched successfully!",
-      posts: documents
+  // work with paginator
+  console.log(req.query);
+  const pageSize = +req.query.pagesize; // "+" converts string to number
+  const currentPage = +req.query.page;
+  const postQuery = Post.find();
+  let fetchedPosts;
+  if (pageSize && currentPage) {
+    // limit the number of posts in each page
+    postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+  }
+  postQuery.then(documents => {
+      fetchedPosts = documents;
+      return Post.count();
+    })
+    .then(count => {
+      res.status(200).json({
+        message: "Posts fetched successfully!",
+        posts: fetchedPosts,
+        maxPosts: count
+      });
     });
-  });
 });
 
 router.get("/:id", (req, res, next) => {
@@ -93,6 +111,7 @@ router.get("/:id", (req, res, next) => {
   });
 });
 
+// Delete data form database
 router.delete("/:id", (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
