@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { stringify } from '@angular/compiler/src/util';
 import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root'})
@@ -25,13 +24,13 @@ export class PostsService {
             id: post._id,
             imagePath: post.imagePath
           };
-        }), maxPosts: postData.maxPosts 
+        }), maxPosts: postData.maxPosts
       };
       }))
       .subscribe((transformedPostsData) => {
         this.posts = transformedPostsData.posts;
         this.postsUpdated.next({
-          posts: [...this.posts], 
+          posts: [...this.posts],
           postCount: transformedPostsData.maxPosts});
       });
   }

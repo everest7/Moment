@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 
 const Post = require("../models/post");
+const checkAuth = require("../middleware/check-auth"); // use to check permission
 
 const router = express.Router();
 
@@ -34,6 +35,7 @@ const storage = multer.diskStorage({
 // Save data to database
 router.post(
   "",
+  checkAuth, // check authentication before storing data
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
@@ -57,6 +59,7 @@ router.post(
 // Update one piece of posts
 router.put(
   "/:id",
+  checkAuth,
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
     let imagePath = req.body.imagePath;
@@ -79,7 +82,7 @@ router.put(
 
 router.get("", (req, res, next) => {
   // work with paginator
-  console.log(req.query);
+  // console.log(req.query);
   const pageSize = +req.query.pagesize; // "+" converts string to number
   const currentPage = +req.query.page;
   const postQuery = Post.find();
@@ -89,9 +92,9 @@ router.get("", (req, res, next) => {
     postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
   }
   postQuery.then(documents => {
-      fetchedPosts = documents;
-      return Post.count();
-    })
+    fetchedPosts = documents;
+    return Post.count();
+  })
     .then(count => {
       res.status(200).json({
         message: "Posts fetched successfully!",
@@ -112,7 +115,7 @@ router.get("/:id", (req, res, next) => {
 });
 
 // Delete data form database
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", checkAuth, (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
     res.status(200).json({ message: "Post deleted!" });
