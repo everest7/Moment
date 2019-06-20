@@ -56,7 +56,8 @@ router.post("/login", (req, res, next) => {
       // return the token to front-end
       res.status(200).json({
         token: token,
-        expiresIn: 3600
+        expiresIn: 3600,
+        userId: fetchedUser._id // parse the user id to front end
       });
     })
     .catch(err => {
