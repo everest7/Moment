@@ -9,7 +9,8 @@
     </div>
     <p>{{ post.content }}</p>
     <!-- Only show those buttons to creator -->
-    <mat-action-row *ngIf="userIsAuthenticated && userId === post.creator">
+    <!-- *ngIf="userIsAuthenticated && userId === post.creator" -->
+    <mat-action-row>
       <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
       <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
     </mat-action-row>
