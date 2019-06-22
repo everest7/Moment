@@ -8,7 +8,9 @@ const userRoutes = require("./routes/user");
 
 const app = express();
 // Password NetGKO6qoNkRr6UJ
-mongoose.connect("mongodb+srv://vincent:NetGKO6qoNkRr6UJ@cluster0-wys5y.mongodb.net/node-angular", { useNewUrlParser: true })
+mongoose.connect("mongodb+srv://vincent:" +
+ process.env.MONGO_ATLAS_PW +
+  "@cluster0-wys5y.mongodb.net/node-angular", { useNewUrlParser: true })
   .then(() => {
     console.log("Connected to database.");
   })
@@ -19,7 +21,7 @@ mongoose.connect("mongodb+srv://vincent:NetGKO6qoNkRr6UJ@cluster0-wys5y.mongodb.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 // grant permission to image folder
-app.use("/images", express.static(path.join("backend/images")));
+app.use("/images", express.static(path.join("images")));
 
 // "*" means no matter which domain sending request is allowed
 app.use((req, res, next) => {
