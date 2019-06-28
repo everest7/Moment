@@ -23,3 +23,16 @@ mat-paginator {
   width: 100%;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
+
+.post-card {
+  margin-right: 20px;
+  margin-bottom: 30px;
+  float: left;
+  max-width: 320px;
+  height: 320px;
+  padding-bottom: 30px;
+}
+
+.post-image img {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}

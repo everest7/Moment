@@ -18,10 +18,11 @@ mongoose.connect("mongodb+srv://vincent:" +
     console.log("Connection failed.");
   });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false}));
-// grant permission to image folder
-app.use("/images", express.static(path.join("images")));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  // grant permission to image folder
+  app.use("/images", express.static(path.join(__dirname, "images")));
+  app.use("/", express.static(path.join(__dirname, "angular")));
 
 // "*" means no matter which domain sending request is allowed
 app.use((req, res, next) => {
@@ -40,6 +41,10 @@ app.use((req, res, next) => {
 // Redirect to api/post
 app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
+// Integreated deployment
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "angular", "index.html"));
+});
 
 module.exports = app;
 

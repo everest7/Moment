@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="isLoading"></mat-spinner>
+<!-- <mat-spinner *ngIf="isLoading"></mat-spinner>
 <mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let post of posts">
     <mat-expansion-panel-header>
@@ -7,15 +7,15 @@
     <div class="post-image">
       <img [src]="post.imagePath" [alt]="post.title">
     </div>
-    <p>{{ post.content }}</p>
+    <p>{{ post.content }}</p> -->
     <!-- Only show those buttons to creator -->
     <!-- *ngIf="userIsAuthenticated && userId === post.creator" -->
-    <mat-action-row>
+    <!-- <mat-action-row>
       <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
       <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
     </mat-action-row>
   </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion> -->
 <mat-paginator 
 [length]="totalPosts" 
 [pageSize]="postsPerPage" 
@@ -24,3 +24,19 @@
 *ngIf="posts.length > 0"
 ></mat-paginator>
 <p class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">No Posts Added Yet</p>
+<!-- Add card component -->
+<div class="image-gallery" >
+  <mat-card class="post-card" *ngFor="let post of posts">
+    <mat-card-header>
+      <mat-card-title>{{ post.title }}</mat-card-title>
+    </mat-card-header>
+    <img [src]="post.imagePath" [alt]="post.title" style="max-width: 320px;">
+    <mat-card-content>
+      <p style="margin-top: 10px">{{ post.content }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</button>
+      <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
