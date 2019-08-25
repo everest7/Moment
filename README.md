@@ -1,4 +1,6 @@
-# MeanStack
+# Moment
+An Image Sharing and Hosting Web Application 
+See the application [here](http://moment-env.cfihwy3zuy.us-east-2.elasticbeanstalk.com/)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
 
